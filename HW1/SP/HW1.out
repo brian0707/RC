@@ -1,6 +1,6 @@
   STRUCTUREPOINT - spColumn v6.00 (TM)                                                                    Page   1
-  Licensed to: PingXuLin, ntust. License ID: -21F51                                                       03/06/26
-  D:\NCKU_MS\作業\RCCHung\HW1.col                                                                         03:51 PM
+  Licensed to: PingXuLin, ntust. License ID: -21F51                                                       03/11/26
+  D:\NCKU_MS\作業\RCCHung\HW1\SP\HW1.col                                                                  04:34 PM
 
 
 
@@ -51,13 +51,13 @@
 
 
   STRUCTUREPOINT - spColumn v6.00 (TM)                                                                    Page   2
-  Licensed to: PingXuLin, ntust. License ID: -21F51                                                       03/06/26
-  D:\NCKU_MS\作業\RCCHung\HW1.col                                                                         03:51 PM
+  Licensed to: PingXuLin, ntust. License ID: -21F51                                                       03/11/26
+  D:\NCKU_MS\作業\RCCHung\HW1\SP\HW1.col                                                                  04:34 PM
 
 
   General Information:
   ====================
-    File Name: D:\NCKU_MS\作業\RCCHung\HW1.col
+    File Name: D:\NCKU_MS\作業\RCCHung\HW1\SP\HW1.col
     Project:  RCCCC HW1
     Column:   1                              Engineer: 
     Code:     ACI 318-14                     Units: Metric
@@ -68,9 +68,9 @@
   Material Properties:
   ====================
     Concrete: Standard                       Steel: Standard
-    f'c   = 28 MPa                           fy     = 550 MPa
+    f'c   = 28 MPa                           fy     = 420 MPa
     Ec    = 24870.1 MPa                      Es     = 200000 MPa
-    fc    = 23.8 MPa                         Eps_yt = 0.00275 mm/mm
+    fc    = 23.8 MPa                         Eps_yt = 0.0021 mm/mm
     Eps_u = 0.003 mm/mm
     Beta1 = 0.846954
 
@@ -93,38 +93,38 @@
     #  9        29         645   # 10        32         819   # 11        36        1006
     # 14        43        1452   # 18        57        2581 
 
-    Confinement: Tied; #3 ties with #10 bars,  #3 with larger bars.
+    Confinement: Tied; #4 ties with #10 bars,  #4 with larger bars.
     phi(a) = 0.8,  phi(b) = 0.9,  phi(c) = 0.65
 
     Layout: Rectangular
     Pattern: All Sides Equal  (Cover to longitudinal reinforcement)
     Total steel area: As = 8155 mm^2 at rho = 2.27%
-    Minimum clear spacing = 93 mm 
+    Minimum clear spacing = 87 mm 
 
-    16 #8   Cover = 50 mm
+    16 #8   Cover = 62.7 mm
 
   Control Points:
   ===============
                           Axial Load P     X-Moment     Y-Moment NA depth Dt depth    eps_t    Phi
     Bending about                   kN          kNm          kNm       mm       mm
     --------------------- ------------ ------------ ------------ -------- -------- -------- ------
-     X @ Max compression        8358.4         0.00        -0.00     6448      537 -0.00275  0.650
-       @ Allowable comp.        6686.7       317.98         0.00      649      537 -0.00052  0.650
-       @ fs = 0.0               5541.8       525.89         0.00      537      537 -0.00000  0.650
-       @ fs = 0.5*fy            3416.2       739.98         0.00      368      537  0.00137  0.650
-       @ Balanced point         1925.5       827.51         0.00      280      537  0.00275  0.650
-       @ Tension control        1106.4      1048.54         0.00      201      537  0.00500  0.900
-       @ Pure bending              0.0       909.91         0.00      150      537  0.00772  0.900
-       @ Max tension           -4036.6         0.00         0.00        0      537  9.99999  0.900
+     X @ Max compression        7669.3         0.00        -0.00     1749      525 -0.00210  0.650
+       @ Allowable comp.        6135.4       335.30         0.00      609      525 -0.00041  0.650
+       @ fs = 0.0               5243.7       487.55         0.00      525      525  0.00000  0.650
+       @ fs = 0.5*fy            3603.7       663.32         0.00      389      525  0.00105  0.650
+       @ Balanced point         2403.9       745.14         0.00      309      525  0.00210  0.650
+       @ Tension control        1323.1       904.83         0.00      197      525  0.00500  0.900
+       @ Pure bending              0.0       703.45         0.00      132      525  0.00895  0.900
+       @ Max tension           -3082.5         0.00         0.00        0      525  9.99999  0.900
 
-    -X @ Max compression        8358.4        -0.00         0.00     6448      537 -0.00275  0.650
-       @ Allowable comp.        6686.7      -317.98        -0.00      649      537 -0.00052  0.650
-       @ fs = 0.0               5541.8      -525.89        -0.00      537      537 -0.00000  0.650
-       @ fs = 0.5*fy            3416.2      -739.97        -0.00      368      537  0.00137  0.650
-       @ Balanced point         1925.5      -827.51        -0.00      280      537  0.00275  0.650
-       @ Tension control        1106.4     -1048.54        -0.00      201      537  0.00500  0.900
-       @ Pure bending              0.0      -909.91        -0.00      150      537  0.00772  0.900
-       @ Max tension           -4036.6         0.00         0.00        0      537  9.99999  0.900
+    -X @ Max compression        7669.3        -0.00        -0.00     1749      525 -0.00210  0.650
+       @ Allowable comp.        6135.4      -335.30        -0.00      609      525 -0.00041  0.650
+       @ fs = 0.0               5243.7      -487.55        -0.00      525      525  0.00000  0.650
+       @ fs = 0.5*fy            3603.7      -663.32        -0.00      389      525  0.00105  0.650
+       @ Balanced point         2403.9      -745.14        -0.00      309      525  0.00210  0.650
+       @ Tension control        1323.1      -904.83        -0.00      197      525  0.00500  0.900
+       @ Pure bending             -0.0      -703.45        -0.00      132      525  0.00895  0.900
+       @ Max tension           -3082.5         0.00         0.00        0      525  9.99999  0.900
 
 
     *** End of output ***
