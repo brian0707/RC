@@ -87,13 +87,13 @@ ke = (1 - sum_wi_sq / (6 * bc * dc)) * (1 - s_prime / (2 * bc)) * (1 - s_prime /
 ke = max(ke, 0.3)
 # 分析參數
 disp_incr = -0.0000005   # mm/step
-max_steps = 20000
+max_steps = 30000
 target_disp = -8.0  # 目標軸向位移 (mm)
 def run_analysis(fpc_val, fy_val, confined=True):
     """執行單一組合分析，回傳 (disp, force) 陣列。confined=True 考慮圍束效應，False 則全斷面用未圍束混凝土。"""
     fpc = -fpc_val
     fyh = fy_val
-    epsc0 = 0.002 if fpc_val <= 35 else 0.0025   # 高強度混凝土峰值應變較大
+    epsc0 = 0.002   # 未圍束混凝土峰值應變 (Mander: 與強度無關)
     fpcu = 0.2 * fpc
     # 建立模型
     ops.wipe()
@@ -188,25 +188,50 @@ try:
     from matplotlib.lines import Line2D
     # 配色與圖例
     colors = ['#2E86AB', '#E94F37', '#44AF69', '#F4A261']
-    # --- 軸力-位移曲線 (四種組合，實線=圍束、虛線=未圍束) ---
-    fig_pdelta, ax_pdelta = plt.subplots(1, 1, figsize=(12, 7))
-    for i, (label, disp_c, force_c, disp_u, force_u, fpc_val, fy_val) in enumerate(results):
-        ax_pdelta.plot(disp_c, force_c, color=colors[i], linewidth=1.5, linestyle='-')
-        ax_pdelta.plot(disp_u, force_u, color=colors[i], linewidth=1.5, linestyle='--')
-    # 自訂圖例：顏色對應組合，線型對應 confined/unconfined
+    # --- 軸力-位移曲線 (三張圖：僅圍束、僅未圍束、兩者合併) ---
     legend_handles = [Line2D([0], [0], color=colors[i], lw=2, label=label) for i, (label, *_) in enumerate(results)]
-    legend_handles.append(Line2D([0], [0], color='gray', lw=2, linestyle='-', label='confined'))
-    legend_handles.append(Line2D([0], [0], color='gray', lw=2, linestyle='--', label='unconfined'))
-    ax_pdelta.legend(handles=legend_handles, loc='upper center', bbox_to_anchor=(0.5, -0.08), ncol=3, fontsize=9, frameon=True)
-    ax_pdelta.set_xlabel('Axial Displacement (mm)')
-    ax_pdelta.set_ylabel('Axial Force (N)')
-    ax_pdelta.set_title('RC Column Axial Behavior')
-    ax_pdelta.grid(True)
+    legend_handles_full = legend_handles + [
+        Line2D([0], [0], color='gray', lw=2, linestyle='-', label='confined'),
+        Line2D([0], [0], color='gray', lw=2, linestyle='--', label='unconfined')]
+    def plot_common(ax):
+        ax.set_xlabel('Axial Displacement (mm)')
+        ax.set_ylabel('Axial Force (kN)')
+        ax.grid(True)
+        ax.set_xlim(0, 0.015)
+    # 1. 僅圍束 (confined only)
+    fig1, ax1 = plt.subplots(1, 1, figsize=(12, 7))
+    for i, (label, disp_c, force_c, disp_u, force_u, fpc_val, fy_val) in enumerate(results):
+        ax1.plot(disp_c, force_c / 1000, color=colors[i], linewidth=1.5, linestyle='-')
+    ax1.legend(handles=legend_handles, loc='upper center', bbox_to_anchor=(0.5, -0.08), ncol=2, fontsize=9, frameon=True)
+    ax1.set_title('Force-Displacement Curve (Confined Only)')
+    plot_common(ax1)
     plt.tight_layout(rect=[0, 0.1, 1, 0.98])
-    output_png = RESULTS_DIR / 'axial_force_disp.png'
-    fig_pdelta.savefig(str(output_png), dpi=150, bbox_inches='tight')
+    fig1.savefig(str(RESULTS_DIR / 'axial_force_disp_confined.png'), dpi=150, bbox_inches='tight')
     plt.show()
-    print(f"Chart saved to {output_png}")
+    print(f"Chart saved to {RESULTS_DIR / 'axial_force_disp_confined.png'}")
+    # 2. 僅未圍束 (unconfined only)
+    fig2, ax2 = plt.subplots(1, 1, figsize=(12, 7))
+    for i, (label, disp_c, force_c, disp_u, force_u, fpc_val, fy_val) in enumerate(results):
+        ax2.plot(disp_u, force_u / 1000, color=colors[i], linewidth=1.5, linestyle='--')
+    ax2.legend(handles=legend_handles, loc='upper center', bbox_to_anchor=(0.5, -0.08), ncol=2, fontsize=9, frameon=True)
+    ax2.set_title('Force-Displacement Curve (Unconfined Only)')
+    plot_common(ax2)
+    plt.tight_layout(rect=[0, 0.1, 1, 0.98])
+    fig2.savefig(str(RESULTS_DIR / 'axial_force_disp_unconfined.png'), dpi=150, bbox_inches='tight')
+    plt.show()
+    print(f"Chart saved to {RESULTS_DIR / 'axial_force_disp_unconfined.png'}")
+    # 3. 兩者合併 (confined + unconfined)
+    fig3, ax3 = plt.subplots(1, 1, figsize=(12, 7))
+    for i, (label, disp_c, force_c, disp_u, force_u, fpc_val, fy_val) in enumerate(results):
+        ax3.plot(disp_c, force_c / 1000, color=colors[i], linewidth=1.5, linestyle='-')
+        ax3.plot(disp_u, force_u / 1000, color=colors[i], linewidth=1.5, linestyle='--')
+    ax3.legend(handles=legend_handles_full, loc='upper center', bbox_to_anchor=(0.5, -0.08), ncol=3, fontsize=9, frameon=True)
+    ax3.set_title('Force-Displacement Curve (Confined + Unconfined)')
+    plot_common(ax3)
+    plt.tight_layout(rect=[0, 0.1, 1, 0.98])
+    fig3.savefig(str(RESULTS_DIR / 'axial_force_disp_combined.png'), dpi=150, bbox_inches='tight')
+    plt.show()
+    print(f"Chart saved to {RESULTS_DIR / 'axial_force_disp_combined.png'}")
     # --- 匯出各組合 CSV (圍束與未圍束) ---
     for label, disp_c, force_c, disp_u, force_u, fpc_val, fy_val in results:
         for suffix, disp, force in [('confined', disp_c, force_c), ('unconfined', disp_u, force_u)]:
@@ -217,7 +242,7 @@ try:
                     f.write(f'{d:.6e},{ff:.6e}\n')
             print(f"P-Delta data saved to {output_csv}")
     # --- 單獨斷面圖 (較大) ---
-    fig2, ax_sec = plt.subplots(1, 1, figsize=(6, 6))
+    fig_sec, ax_sec = plt.subplots(1, 1, figsize=(6, 6))
     ax_sec.set_aspect('equal')
     ax_sec.set_xlim(-320, 320)
     ax_sec.set_ylim(-320, 320)
@@ -233,7 +258,7 @@ try:
     ax_sec.grid(True, alpha=0.3)
     plt.tight_layout()
     output_section = RESULTS_DIR / 'section.png'
-    plt.savefig(str(output_section), dpi=150)
+    fig_sec.savefig(str(output_section), dpi=150)
     plt.show()
     print(f"Section plot saved to {output_section}")
     # --- 混凝土應力-應變曲線 (fpc=28 與 fpc=70，實線=confined、虛線=unconfined) ---
@@ -252,7 +277,7 @@ try:
         return sig
     def mander_confined_params(fpc_val, fy_val):
         fpc = -fpc_val
-        epsc0 = 0.002 if fpc_val <= 35 else 0.0025
+        epsc0 = 0.002
         fl = 0.5 * ke * rho_s * fy_val
         fcc_ratio = max(-1.254 + 2.254 * np.sqrt(1 + 7.94 * fl / fpc_val) - 2 * fl / fpc_val, 1.0)
         fpc_conf = fpc * fcc_ratio
@@ -271,7 +296,7 @@ try:
     fig3, ax3 = plt.subplots(1, 1, figsize=(10, 6))
     conc_data = {}
     for i, fpc_val in enumerate(conc_fpc_list):
-        epsc0 = 0.002 if fpc_val <= 35 else 0.0025
+        epsc0 = 0.002
         fpcu = 0.2 * (-fpc_val)
         sig_un = concrete01_stress_strain(strain, -fpc_val, epsc0, fpcu, epsu)
         fpc_c, epsc0_c, fpcu_c, epsu_c = mander_confined_params(fpc_val, fy_for_conf)
@@ -301,5 +326,15 @@ try:
         for j in range(n_pts):
             f.write(f'{strain[j]*100:.6e},{s28u[j]:.6e},{s28c[j]:.6e},{s70u[j]:.6e},{s70c[j]:.6e}\n')
     print(f"Concrete stress-strain data saved to {output_csv}")
+    # 印出混凝土參數 (fpc=28 與 fpc=70 為例)
+    for fpc_val in [28, 70]:
+        epsc0 = 0.002
+        fpcu = 0.2 * (-fpc_val)
+        fpc_c, epsc0_c, fpcu_c, epsu_c = mander_confined_params(fpc_val, 420)
+        print(f"--- fpc={fpc_val} MPa ---")
+        print(f"  epsc0(unconfined)={epsc0}, epsc0_confined={epsc0_c}")
+        print(f"  epsu(unconfined)={epsu}, epsu_confined={epsu_c}")
+        print(f"  fpcu(unconfined)={fpcu}, fpcu_confined={fpcu_c}")
+        print(f"  fpc(unconfined)={-fpc_val}, fpc_confined={fpc_c}")
 except Exception as e:
     print(f"Plotting skipped: {e}")
