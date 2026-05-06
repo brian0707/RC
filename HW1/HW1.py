@@ -65,7 +65,11 @@ COMBINATIONS = [
     (70, 550),   # 4. 高強度混凝土 + 高強度鋼筋
 ]
 E0 = 200000     # 鋼筋彈性模數 (MPa)
-b_steel = 0.01  # 應變硬化比
+b_steel = 0.01  # Steel02 應變硬化比 (後屈服切線 / 初始彈性切線)
+# Steel02 (Giuffré–Menegotto–Pinto) 曲線過渡參數（OpenSees 建議值）
+R0_steel = 18.0
+cR1_steel = 0.925
+cR2_steel = 0.15
 epsu = 0.005    # 未圍束混凝土壓碎應變
 # ==================== 圍束效應 (Mander et al. 1988) ====================
 # 核心區尺寸: 箍筋中心線至中心線 (confined region = inside hoops)
@@ -111,7 +115,7 @@ def run_analysis(fpc_val, fy_val, confined=True):
         epsu_confined = min(max(epsu_confined, 0.01), 0.06)
         fpcu_confined = 0.2 * fpc_confined
         ops.uniaxialMaterial('Concrete02', 2, fpc_confined, epsc0_confined, fpcu_confined, epsu_confined, 0.1, 0.0, 0.0)
-    ops.uniaxialMaterial('Steel01', 3, fy_val, E0, b_steel)
+    ops.uniaxialMaterial('Steel02', 3, fy_val, E0, b_steel, R0_steel, cR1_steel, cR2_steel)
     ops.section('Fiber', 1, '-GJ', 1e10)
     core_mat = 2 if confined else 1
     ops.patch('rect', core_mat, n_fib_y, n_fib_z, -core_bound, -core_bound, core_bound, core_bound)
@@ -150,10 +154,13 @@ def run_analysis(fpc_val, fy_val, confined=True):
     ops.integrator('DisplacementControl', 2, 1, disp_incr)
     ops.analysis('Static')
     suffix = 'confined' if confined else 'unconfined'
-    rec_file = f'axial_force_disp_fpc{fpc_val}_fy{fy_val}_{suffix}.txt'
+    case_dir = RESULTS_DIR / f'fpc{fpc_val}_fy{fy_val}_{suffix}'
+    case_dir.mkdir(parents=True, exist_ok=True)
     orig_cwd = os.getcwd()
-    os.chdir(RESULTS_DIR)
-    ops.recorder('Element', '-file', rec_file, '-time', '-ele', 1, 'section', 'force')
+    os.chdir(str(case_dir))
+    # 位移、軸力分別匯出為 disp.txt、force.txt（含 -time 時第一欄為 pseudo-time）
+    ops.recorder('Node', '-file', 'disp.txt', '-time', '-node', 2, '-dof', 1, 'disp')
+    ops.recorder('Element', '-file', 'force.txt', '-time', '-ele', 1, 'section', 'force')
     for _ in range(max_steps):
         ok = ops.analyze(1)
         if ok != 0:
@@ -165,12 +172,17 @@ def run_analysis(fpc_val, fy_val, confined=True):
         if ops.nodeDisp(2, 1) < target_disp:
             break
     os.chdir(orig_cwd)
-    data = np.loadtxt(RESULTS_DIR / rec_file)
-    if data.ndim == 1:
-        data = data.reshape(1, -1)
-    n_steps = len(data)
-    disp = (np.arange(n_steps) + 1) * abs(disp_incr)
-    force = -data[:, 1] if data.shape[1] > 1 else -data[:, 0]
+    disp_path = case_dir / 'disp.txt'
+    force_path = case_dir / 'force.txt'
+    d_data = np.loadtxt(disp_path)
+    if d_data.ndim == 1:
+        d_data = d_data.reshape(1, -1)
+    # 有 -time 時：欄位為 [time, disp]；僅一欄時為位移
+    disp = d_data[:, 1] if d_data.shape[1] > 1 else d_data[:, 0]
+    f_data = np.loadtxt(force_path)
+    if f_data.ndim == 1:
+        f_data = f_data.reshape(1, -1)
+    force = -f_data[:, 1] if f_data.shape[1] > 1 else -f_data[:, 0]
     return disp, force
 # 執行四種組合分析 (含圍束與未圍束)
 results = []
@@ -197,11 +209,12 @@ try:
         ax.set_xlabel('Axial Displacement (mm)')
         ax.set_ylabel('Axial Force (kN)')
         ax.grid(True)
-        ax.set_xlim(0, 0.015)
+        # 位移以絕對值顯示（壓縮）；勿將 x 軸鎖在 0~0.015，否則與實際 mm 量級不符且負位移會整條在圖外
+        ax.set_xlim(left=0)
     # 1. 僅圍束 (confined only)
     fig1, ax1 = plt.subplots(1, 1, figsize=(12, 7))
     for i, (label, disp_c, force_c, disp_u, force_u, fpc_val, fy_val) in enumerate(results):
-        ax1.plot(disp_c, force_c / 1000, color=colors[i], linewidth=1.5, linestyle='-')
+        ax1.plot(np.abs(disp_c), force_c / 1000, color=colors[i], linewidth=1.5, linestyle='-')
     ax1.legend(handles=legend_handles, loc='upper center', bbox_to_anchor=(0.5, -0.08), ncol=2, fontsize=9, frameon=True)
     ax1.set_title('Force-Displacement Curve (Confined Only)')
     plot_common(ax1)
@@ -212,7 +225,7 @@ try:
     # 2. 僅未圍束 (unconfined only)
     fig2, ax2 = plt.subplots(1, 1, figsize=(12, 7))
     for i, (label, disp_c, force_c, disp_u, force_u, fpc_val, fy_val) in enumerate(results):
-        ax2.plot(disp_u, force_u / 1000, color=colors[i], linewidth=1.5, linestyle='--')
+        ax2.plot(np.abs(disp_u), force_u / 1000, color=colors[i], linewidth=1.5, linestyle='--')
     ax2.legend(handles=legend_handles, loc='upper center', bbox_to_anchor=(0.5, -0.08), ncol=2, fontsize=9, frameon=True)
     ax2.set_title('Force-Displacement Curve (Unconfined Only)')
     plot_common(ax2)
@@ -223,8 +236,8 @@ try:
     # 3. 兩者合併 (confined + unconfined)
     fig3, ax3 = plt.subplots(1, 1, figsize=(12, 7))
     for i, (label, disp_c, force_c, disp_u, force_u, fpc_val, fy_val) in enumerate(results):
-        ax3.plot(disp_c, force_c / 1000, color=colors[i], linewidth=1.5, linestyle='-')
-        ax3.plot(disp_u, force_u / 1000, color=colors[i], linewidth=1.5, linestyle='--')
+        ax3.plot(np.abs(disp_c), force_c / 1000, color=colors[i], linewidth=1.5, linestyle='-')
+        ax3.plot(np.abs(disp_u), force_u / 1000, color=colors[i], linewidth=1.5, linestyle='--')
     ax3.legend(handles=legend_handles_full, loc='upper center', bbox_to_anchor=(0.5, -0.08), ncol=3, fontsize=9, frameon=True)
     ax3.set_title('Force-Displacement Curve (Confined + Unconfined)')
     plot_common(ax3)
@@ -336,5 +349,36 @@ try:
         print(f"  epsu(unconfined)={epsu}, epsu_confined={epsu_c}")
         print(f"  fpcu(unconfined)={fpcu}, fpcu_confined={fpcu_c}")
         print(f"  fpc(unconfined)={-fpc_val}, fpc_confined={fpc_c}")
+    # --- Patch 示意圖 ---
+    fig_patch, ax_patch = plt.subplots(1, 1, figsize=(7, 7))
+    ax_patch.set_aspect('equal')
+    ax_patch.set_xlim(-320, 320)
+    ax_patch.set_ylim(-320, 320)
+    # 保護層 (未圍束混凝土) - 先繪製作為背景
+    cover_left = Rectangle((-H/2, -B/2), H/2-core_bound, B, facecolor='#D3D3D3', edgecolor='#666', linewidth=1, label='Cover (unconfined)')
+    cover_right = Rectangle((core_bound, -B/2), H/2-core_bound, B, facecolor='#D3D3D3', edgecolor='#666', linewidth=1)
+    cover_bottom = Rectangle((-H/2, -B/2), H, B/2-core_bound, facecolor='#D3D3D3', edgecolor='#666', linewidth=1)
+    cover_top = Rectangle((-H/2, core_bound), H, B/2-core_bound, facecolor='#D3D3D3', edgecolor='#666', linewidth=1)
+    for p in [cover_left, cover_right, cover_bottom, cover_top]:
+        ax_patch.add_patch(p)
+    # 核心區 (圍束混凝土)
+    core_rect = Rectangle((-core_bound, -core_bound), 2*core_bound, 2*core_bound,
+                         facecolor='#87CEEB', edgecolor='#2E86AB', linewidth=2, label='Core (confined)')
+    ax_patch.add_patch(core_rect)
+    # 主筋位置
+    for y, z in bar_positions:
+        ax_patch.plot(y, z, 'o', markersize=6, color='#2C3E50', markeredgecolor='#1a252f')
+    ax_patch.axhline(y=0, color='k', linestyle=':', alpha=0.3)
+    ax_patch.axvline(x=0, color='k', linestyle=':', alpha=0.3)
+    ax_patch.set_xlabel('y (mm)')
+    ax_patch.set_ylabel('z (mm)')
+    ax_patch.set_title('Fiber Section Patch Layout')
+    ax_patch.legend(loc='upper right', handles=[core_rect, cover_left])
+    ax_patch.grid(True, alpha=0.3)
+    plt.tight_layout()
+    output_patch = RESULTS_DIR / 'patch_layout.png'
+    fig_patch.savefig(str(output_patch), dpi=150)
+    plt.show()
+    print(f"Patch layout saved to {output_patch}")
 except Exception as e:
     print(f"Plotting skipped: {e}")

@@ -1,0 +1,130 @@
+  STRUCTUREPOINT - spColumn v6.00 (TM)                                                                    Page   1
+  Licensed to: PingXuLin, ntust. License ID: -21F51                                                       04/15/26
+  D:\NCKU_MS\作業\RCCHung\HW2\HW2.col                                                                     04:28 PM
+
+
+
+
+
+
+
+
+
+
+
+
+                                     oooooo               o
+                                    oo    oo             oo
+                 ooooo    oooooo    oo          ooooo    oo      oo   oo   o oooooooooo    o ooooo 
+                oo    o   oo   oo   oo         oo   oo   oo      oo   oo    oo   oo   oo    oo   oo
+                oo        oo   oo   oo         oo   oo   oo      oo   oo    oo   oo   oo    oo   oo
+                 ooooo    oo   oo   oo         oo   oo   oo      oo   oo    oo   oo   oo    oo   oo
+                     oo   oooooo    oo         oo   oo   oo      oo   oo    oo   oo   oo    oo   oo
+                o    oo   oo        oo    oo   oo   oo   oo  o   oo   oo    oo   oo   oo    oo   oo
+                 ooooo    oo         oooooo     ooooo     ooo     ooooo o   oo   oo   oo    oo   oo (TM)
+
+
+
+
+
+     ==========================================================================================================
+                                               spColumn v6.00 (TM)
+                     Computer program for the Strength Design of Reinforced Concrete Sections
+                                    Copyright c 1988-2017, STRUCTUREPOINT, LLC.
+                                               All rights reserved
+     ==========================================================================================================
+
+
+
+
+     Licensee stated above acknowledges  that STRUCTUREPOINT (SP) is  not and cannot be  responsible for either
+     the  accuracy or  adequacy of  the material  supplied as  input for  processing by  the spColumn  computer
+     program. Furthermore, STRUCTUREPOINT neither makes any warranty expressed nor implied with respect to  the
+     correctness of  the output  prepared by  the spColumn  program. Although  STRUCTUREPOINT has endeavored to
+     produce spColumn error  free the program  is not and  cannot be certified  infallible. The final  and only
+     responsibility  for  analysis,   design  and  engineering   documents  is  the   licensee's.  Accordingly,
+     STRUCTUREPOINT disclaims all responsibility in contract, negligence or other tort for any analysis, design
+     or engineering documents prepared in connection with the use of the spColumn program.                     
+  
+  
+  
+
+
+  STRUCTUREPOINT - spColumn v6.00 (TM)                                                                    Page   2
+  Licensed to: PingXuLin, ntust. License ID: -21F51                                                       04/15/26
+  D:\NCKU_MS\作業\RCCHung\HW2\HW2.col                                                                     04:28 PM
+
+
+  General Information:
+  ====================
+    File Name: D:\NCKU_MS\作業\RCCHung\HW2\HW2.col
+    Project:  
+    Column:                                  Engineer: 
+    Code:     ACI 318-14                     Units: Metric
+
+    Run Option: Investigation                Slenderness: Not considered
+    Run Axis:   X-axis                       Column Type: Structural
+
+  Material Properties:
+  ====================
+    Concrete: Standard                       Steel: Standard
+    f'c   = 28 MPa                           fy     = 550 MPa
+    Ec    = 24870.1 MPa                      Es     = 200000 MPa
+    fc    = 23.8 MPa                         Eps_yt = 0.00275 mm/mm
+    Eps_u = 0.003 mm/mm
+    Beta1 = 0.846954
+
+  Section:
+  ========
+    Rectangular: Width = 600 mm              Depth = 600 mm
+
+    Gross section area, Ag =  360000 mm^2
+    Ix =  1.08e+010 mm^4                     Iy =  1.08e+010 mm^4
+    rx =  173.205 mm                         ry =  173.205 mm
+    Xo =  0 mm                               Yo =  0 mm
+
+  Reinforcement:
+  ==============
+    Bar Set: ASTM A615
+    Size Diam (mm) Area (mm^2)   Size Diam (mm) Area (mm^2)   Size Diam (mm) Area (mm^2)
+    ---- --------- -----------   ---- --------- -----------   ---- --------- -----------
+    #  3        10          71   #  4        13         129   #  5        16         200
+    #  6        19         284   #  7        22         387   #  8        25         510
+    #  9        29         645   # 10        32         819   # 11        36        1006
+    # 14        43        1452   # 18        57        2581 
+
+    Confinement: Tied; #3 ties with #10 bars,  #3 with larger bars.
+    phi(a) = 0.8,  phi(b) = 0.9,  phi(c) = 0.65
+
+    Layout: Rectangular
+    Pattern: All Sides Equal  (Cover to transverse reinforcement)
+    Total steel area: As = 8155 mm^2 at rho = 2.27%
+    Minimum clear spacing = 82 mm 
+
+    16 #8   Cover = 63 mm
+
+  Control Points:
+  ===============
+                          Axial Load P     X-Moment     Y-Moment NA depth Dt depth    eps_t    Phi
+    Bending about                   kN          kNm          kNm       mm       mm
+    --------------------- ------------ ------------ ------------ -------- -------- -------- ------
+     X @ Max compression        8358.4         0.00        -0.00     6177      515 -0.00275  0.650
+       @ Allowable comp.        6686.7       283.67         0.00      649      515 -0.00062  0.650
+       @ fs = 0.0               5287.1       519.32         0.00      515      515  0.00000  0.650
+       @ fs = 0.5*fy            3197.2       693.26         0.00      353      515  0.00137  0.650
+       @ Balanced point         1684.1       758.65         0.00      269      515  0.00275  0.650
+       @ Tension control         745.5       937.20         0.00      193      515  0.00500  0.900
+       @ Pure bending             -0.0       847.61         0.00      161      515  0.00658  0.900
+       @ Max tension           -4036.6         0.00         0.00        0      515  9.99999  0.900
+
+    -X @ Max compression        8358.4        -0.00        -0.00     6177      515 -0.00275  0.650
+       @ Allowable comp.        6686.7      -283.67        -0.00      649      515 -0.00062  0.650
+       @ fs = 0.0               5287.1      -519.32        -0.00      515      515  0.00000  0.650
+       @ fs = 0.5*fy            3197.2      -693.26        -0.00      353      515  0.00137  0.650
+       @ Balanced point         1684.1      -758.65        -0.00      269      515  0.00275  0.650
+       @ Tension control         745.5      -937.20        -0.00      193      515  0.00500  0.900
+       @ Pure bending              0.0      -847.61        -0.00      161      515  0.00658  0.900
+       @ Max tension           -4036.6         0.00         0.00        0      515  9.99999  0.900
+
+
+    *** End of output ***

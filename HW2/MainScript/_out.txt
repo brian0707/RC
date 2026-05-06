@@ -1,0 +1,103 @@
+﻿-------------------------------------------------------------------------------------
+Define Unit_SI done
+-------------------------------------------------------------------------------------
+Define Rebar done
+-------------------------------------------------------------------------------------
+輸出目錄：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test
+Running Column Analyses for All Cases...
+Define Fiber Section
+-------------------------------------------------------------------------------------
+Case 1 analysis completed. Data saved in D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case1_Data.
+Define Fiber Section
+-------------------------------------------------------------------------------------
+Case 2 analysis completed. Data saved in D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case2_Data.
+Define Fiber Section
+-------------------------------------------------------------------------------------
+Case 3 analysis completed. Data saved in D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case3_Data.
+Define Fiber Section
+-------------------------------------------------------------------------------------
+Case 4 analysis completed. Data saved in D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case4_Data.
+Define Fiber Section
+-------------------------------------------------------------------------------------
+Case 5 analysis completed. Data saved in D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case5_Data.
+Define Fiber Section
+-------------------------------------------------------------------------------------
+Case 6 analysis completed. Data saved in D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case6_Data.
+Define Fiber Section
+-------------------------------------------------------------------------------------
+Case 7 analysis completed. Data saved in D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case7_Data.
+Define Fiber Section
+-------------------------------------------------------------------------------------
+Case 8 analysis completed. Data saved in D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case8_Data.
+
+--------------------------------------------------------------------------------
+Moment–curvature 常軸力（kN；壓力為負，與 ops.load(2, axial_load_N, …) 一致）
+--------------------------------------------------------------------------------
+  Case 1 (28MPa_SD420): P = -3312.400116 kN  |  f'cc = 46.01 MPa  |  |P| = 3312.400116 kN
+  Case 2 (28MPa_SD550): P = -3312.400116 kN  |  f'cc = 46.01 MPa  |  |P| = 3312.400116 kN
+  Case 3 (35MPa_SD420): P = -3868.709201 kN  |  f'cc = 53.73 MPa  |  |P| = 3868.709201 kN
+  Case 4 (35MPa_SD550): P = -3868.709201 kN  |  f'cc = 53.73 MPa  |  |P| = 3868.709201 kN
+  Case 5 (42MPa_SD420): P = -4411.014660 kN  |  f'cc = 61.26 MPa  |  |P| = 4411.014660 kN
+  Case 6 (42MPa_SD550): P = -4411.014660 kN  |  f'cc = 61.26 MPa  |  |P| = 4411.014660 kN
+  Case 7 (70MPa_SD420): P = -6513.893013 kN  |  f'cc = 90.47 MPa  |  |P| = 6513.893013 kN
+  Case 8 (70MPa_SD550): P = -6513.893013 kN  |  f'cc = 90.47 MPa  |  |P| = 6513.893013 kN
+--------------------------------------------------------------------------------
+
+Define Fiber Section
+-------------------------------------------------------------------------------------
+已匯出 moment–curvature：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case1_Data\MomentCurvature_Case1_28MPa_SD420.csv
+已匯出 moment–curvature 圖：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case1_Data\MomentCurvature_Case1_28MPa_SD420.png
+Define Fiber Section
+-------------------------------------------------------------------------------------
+已匯出 moment–curvature：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case2_Data\MomentCurvature_Case2_28MPa_SD550.csv
+已匯出 moment–curvature 圖：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case2_Data\MomentCurvature_Case2_28MPa_SD550.png
+Define Fiber Section
+-------------------------------------------------------------------------------------
+已匯出 moment–curvature：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case3_Data\MomentCurvature_Case3_35MPa_SD420.csv
+已匯出 moment–curvature 圖：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case3_Data\MomentCurvature_Case3_35MPa_SD420.png
+Define Fiber Section
+-------------------------------------------------------------------------------------
+已匯出 moment–curvature：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case4_Data\MomentCurvature_Case4_35MPa_SD550.csv
+已匯出 moment–curvature 圖：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case4_Data\MomentCurvature_Case4_35MPa_SD550.png
+Define Fiber Section
+-------------------------------------------------------------------------------------
+已匯出 moment–curvature：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case5_Data\MomentCurvature_Case5_42MPa_SD420.csv
+已匯出 moment–curvature 圖：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case5_Data\MomentCurvature_Case5_42MPa_SD420.png
+Define Fiber Section
+-------------------------------------------------------------------------------------
+已匯出 moment–curvature：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case6_Data\MomentCurvature_Case6_42MPa_SD550.csv
+已匯出 moment–curvature 圖：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case6_Data\MomentCurvature_Case6_42MPa_SD550.png
+Define Fiber Section
+-------------------------------------------------------------------------------------
+已匯出 moment–curvature：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case7_Data\MomentCurvature_Case7_70MPa_SD420.csv
+已匯出 moment–curvature 圖：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case7_Data\MomentCurvature_Case7_70MPa_SD420.png
+Define Fiber Section
+-------------------------------------------------------------------------------------
+已匯出 moment–curvature：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case8_Data\MomentCurvature_Case8_70MPa_SD550.csv
+已匯出 moment–curvature 圖：D:\NCKU_MS\作業\RCCHung\HW2\MainScript\results_test\HW2_case8_Data\MomentCurvature_Case8_70MPa_SD550.png
+
+--------------------------------------------------------------------------------
+Moment–curvature 各 Case（OpenSees）：1. 最大曲率 φ_max 發生處之 Moment  2. 曲線上 φ_max（1/m）
+--------------------------------------------------------------------------------
+  Case 1 (Case1_28MPa_SD420): M(φ_max處) = 966.352394 kN·m  |  φ_max = 0.085780 (1/m)
+  Case 2 (Case2_28MPa_SD550): M(φ_max處) = 1063.067585 kN·m  |  φ_max = 0.112330 (1/m)
+  Case 3 (Case3_35MPa_SD420): M(φ_max處) = 1014.493275 kN·m  |  φ_max = 0.085780 (1/m)
+  Case 4 (Case4_35MPa_SD550): M(φ_max處) = 1088.822838 kN·m  |  φ_max = 0.112330 (1/m)
+  Case 5 (Case5_42MPa_SD420): M(φ_max處) = 886.822722 kN·m  |  φ_max = 0.085780 (1/m)
+  Case 6 (Case6_42MPa_SD550): M(φ_max處) = 989.919424 kN·m  |  φ_max = 0.112330 (1/m)
+  Case 7 (Case7_70MPa_SD420): M(φ_max處) = 930.341251 kN·m  |  φ_max = 0.085780 (1/m)
+  Case 8 (Case8_70MPa_SD550): M(φ_max處) = 979.592315 kN·m  |  φ_max = 0.112330 (1/m)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+python.exe : Traceback (most recent call last):
+位於 C:\Users\PingXuLin\AppData\Local\Temp\ps-script-00992209-7b8a-4bda-bf6f-6740770b5c8a.ps1:99 字元:54
++ ... ainScript"; & "C:\Users\PingXuLin\anaconda3\envs\opensees_py312\pytho ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\NCKU_MS\作業\RCCHung\HW2\MainScript\HW2_test.py", line 1285, in <module>
+    print(
+UnicodeEncodeError: 'cp950' codec can't encode character '\xfc' in position 20: illegal multibyte sequence
